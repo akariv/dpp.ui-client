@@ -1,0 +1,20 @@
+<hr/>
+Loading from: <input [(ngModel)]="model.action.options.url" (change)="onChanged()"/>
+<div *ngIf="sources">
+  or select from datahub.io: <select [(ngModel)]="model.action.options.url" (change)="onChanged()">
+  <option *ngFor="let source of sources" value="{{source.url}}">
+    {{ source.name }}
+  </option>
+</select>
+</div>
+<div>
+  <span>{{ model.state }}</span> |
+  <span>{{ model.rowcount }} rows</span> |
+  <span *ngIf="model.schema">{{ model.schema.length }} columns</span> |
+  <span *ngIf="model.prev && model.prev.schema">(prev: {{ model.prev.schema.length }} columns)</span>
+</div>
+  Got:
+<div>
+  <app-result-table [rows]="model.rows" [schema]="model.schema"></app-result-table>
+</div>
+<hr/>

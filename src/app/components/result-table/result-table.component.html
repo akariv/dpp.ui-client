@@ -1,0 +1,24 @@
+<table *ngIf="schema">
+  <thead>
+  <th>Idx</th>
+  <th *ngIf="prefixHeader">{{ prefixHeader }}</th>
+  <th *ngIf="prefixHeader">&hellip;</th>
+  <th *ngFor="let field of schema">
+    {{ field.name }}
+  </th>
+  </thead>
+  <tr *ngFor="let row of rows ">
+    <td>
+      {{ row.idx }}
+    </td>
+    <td *ngIf="prefixHeader"
+        [class.error]="row.data[prefixHeader] && row.data[prefixHeader].klass == 'error'">
+      <strong>{{ row.data[prefixHeader].v }}</strong>
+    </td>
+    <th *ngIf="prefixHeader">&hellip;</th>
+    <td *ngFor="let field of schema"
+        [class.error]="row.data[field.name] && row.data[field.name].klass == 'error'">
+      {{ row.data[field.name].v }}
+    </td>
+  </tr>
+</table>

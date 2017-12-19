@@ -1,0 +1,9 @@
+<p>Add step:</p>
+<div>
+  <button (click)="addUrl()" *ngIf="state()=='init'">Add URL</button>
+  <button (click)="addSkip()" *ngIf="state()=='layout'">Add Skip</button>
+  <button (click)="addHeaders()" *ngIf="state()=='layout'">Looks Good</button>
+  <button (click)="addFilter()" *ngIf="state()=='processing'">Add Filter</button>
+  <button (click)="addSchema()" *ngIf="state()=='processing'">Add Schema</button>
+  <button (click)="addNop()">Add NOP</button>
+</div>

@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="steps">
+    <div class="step" *ngFor="let model of models">
+      <app-step-source *ngIf="model.action.verb=='source'"
+                       [model]="model"
+                       (changed)="onChanged()"
+      >
+      </app-step-source>
+      <app-step-skip *ngIf="model.action.verb=='skip'"
+                     [model]="model"
+                     (changed)="onChanged()"
+      >
+      </app-step-skip>
+      <app-step-mutate *ngIf="model.action.verb=='mutate'"
+                     [model]="model"
+                     (changed)="onChanged()"
+      >
+      </app-step-mutate>
+      <app-step-filter *ngIf="model.action.verb=='filter'"
+                     [model]="model"
+                     (changed)="onChanged()"
+      >
+      </app-step-filter>
+      <app-step-base *ngIf="model.action.verb=='noop'"
+                     [model]="model"
+                     (changed)="onChanged()"
+      ></app-step-base>
+    </div>
+  </div>
+  <div class="adder">
+    <app-step-adder (addModel)="addModel($event)"></app-step-adder>
+  </div>
+  <button (click)="download()">DOWNLOAD</button>
+</div>

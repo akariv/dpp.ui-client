@@ -1,0 +1,9 @@
+table {
+    max-height: 200px;
+    display: block;
+    overflow-y: scroll;
+}
+
+td.error {
+    background: lightcoral;
+}
