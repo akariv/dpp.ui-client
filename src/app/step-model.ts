@@ -8,11 +8,11 @@ export type FieldDefArray = Array<{type: string, name: string}>;
 
 export class StepModel {
 
-  private state = 'pending';
-  private uuid: string;
-  private rows: RowArray = [];
-  private rowcount = null;
-  private revision = 0;
+  state = 'pending';
+  uuid: string;
+  rows: RowArray = [];
+  rowcount = null;
+  revision = 0;
 
   public action: {verb: string; uuid: string, options?: any};
   public schema: FieldDefArray;

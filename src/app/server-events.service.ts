@@ -4,6 +4,9 @@ import {EventSourcePolyfill} from "ng-event-source"
 import {HttpClient} from "@angular/common/http";
 import {StepModel} from "./step-model";
 
+let SERVER = ''; // 'http://localhost:8000';
+
+
 @Injectable()
 export class ServerEventsService {
 
@@ -19,7 +22,7 @@ export class ServerEventsService {
       actions: config.map((sm) => sm.getAction())
     };
     let suffix = this.executionId ? '?id='+this.executionId : '';
-    return this.http.post('http://localhost:8000/config'+suffix, body);
+    return this.http.post(SERVER+'/config'+suffix, body);
   }
 
   run(config: Array<StepModel>): Observable<any> {
@@ -31,7 +34,7 @@ export class ServerEventsService {
         .subscribe(data => {
           console.log(data);
           this.executionId = data['id'];
-          eventSource = new EventSourcePolyfill('http://localhost:8000/events/'+this.executionId, {});
+          eventSource = new EventSourcePolyfill(SERVER+'/events/'+this.executionId, {});
           eventSource.onmessage = x => {
             if (x.data !== 'close') {
               try {
@@ -59,12 +62,12 @@ export class ServerEventsService {
 
   download(config: Array<StepModel>) {
     if (this.executionId) {
-      window.open('http://localhost:8000/download/'+this.executionId, '_blank');
+      window.open(SERVER+'/download/'+this.executionId, '_blank');
     } else {
       this.uploadConfig(config)
         .subscribe((data) => {
           this.executionId = data['id'];
-          window.open('http://localhost:8000/download/'+this.executionId, '_blank');
+          window.open(SERVER+'/download/'+this.executionId, '_blank');
         });
     }
   }

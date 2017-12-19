@@ -12,7 +12,7 @@ type PkgSource = {name: string, url: string};
 })
 export class StepSourceComponent extends StepBaseComponent implements OnInit {
 
-  private sources: PkgSource[] = [];
+  sources: PkgSource[] = [];
 
   constructor(private http: HttpClient) {
     super();

@@ -10,7 +10,7 @@ import {Observable} from "rxjs";
 })
 export class StepsContainerComponent implements OnInit {
 
-  private models: Array<StepModel> = [];
+  models: Array<StepModel> = [];
   private results: Observable<ResultType>;
   private modelsByUuid: {[key: string]: StepModel} = {};
 
