@@ -2,6 +2,7 @@ import './rxjs-extensions';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 import { AppComponent } from './app.component';
@@ -18,6 +19,9 @@ import { StepMutateComponent } from './steps/step-mutate/step-mutate.component';
 import { ResultTableComponent } from './components/result-table/result-table.component';
 import { StepFilterComponent } from './steps/step-filter/step-filter.component';
 import { UniqueValuesPipe } from './unique-values.pipe';
+import { ExecutionStatusComponent } from './components/execution-status/execution-status.component';
+import { ExecutionStepComponent } from './steps/execution-step/execution-step.component';
+import { ZerosPipe } from './pipes/zeros.pipe';
 
 
 @NgModule({
@@ -31,12 +35,16 @@ import { UniqueValuesPipe } from './unique-values.pipe';
     StepMutateComponent,
     ResultTableComponent,
     StepFilterComponent,
-    UniqueValuesPipe
+    UniqueValuesPipe,
+    ExecutionStatusComponent,
+    ExecutionStepComponent,
+    ZerosPipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    NgbModule.forRoot()
   ],
   providers: [ServerEventsService, ExecutionSupervisorService],
   bootstrap: [AppComponent]

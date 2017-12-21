@@ -4,7 +4,7 @@ import {EventSourcePolyfill} from "ng-event-source"
 import {HttpClient} from "@angular/common/http";
 import {StepModel} from "./step-model";
 
-let SERVER = ''; // 'http://localhost:8000';
+let SERVER = '';//http://localhost:8000';
 
 
 @Injectable()

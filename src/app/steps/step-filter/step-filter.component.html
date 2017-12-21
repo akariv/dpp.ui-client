@@ -1,18 +1,14 @@
-<hr/>
-<div *ngIf="model.action.options.kind=='filter'">
-  Filter
-  <select [(ngModel)]="model.action.options.field" (change)="onChanged()">
-    <option *ngIf="model.prev.schema" disabled selected value>Choose field:</option>
-    <option *ngFor="let field of model.prev.schema">{{field.name}}</option>
-  </select>
-  by
-  <select [(ngModel)]="model.action.options.value" (change)="onChanged()">
-    <option *ngIf="model.prev.rows" disabled selected value>Select value:</option>
-    <option *ngFor="let val of model.prev.rows | uniqueValues:model.action.options.field">{{val}}</option>
-  </select>
-</div>
-Got:
-<div>
-  <app-result-table [rows]="model.rows" [schema]="model.schema"></app-result-table>
-</div>
-<hr/>
+<execution-step [model]="model">
+  <div *ngIf="model.action.options.kind=='filter'">
+    Filter
+    <select [(ngModel)]="model.action.options.field" (change)="onChanged()">
+      <option *ngIf="model.prev.schema" disabled selected value>Choose field:</option>
+      <option *ngFor="let field of model.prev.schema">{{field.name}}</option>
+    </select>
+    by
+    <select [(ngModel)]="model.action.options.value" (change)="onChanged()">
+      <option *ngIf="model.prev.rows" disabled selected value>Select value:</option>
+      <option *ngFor="let val of model.prev.rows | uniqueValues:model.action.options.field">{{val}}</option>
+    </select>
+  </div>
+</execution-step>

@@ -10,12 +10,13 @@ export class StepAdderComponent implements OnInit {
 
   @Output('addModel') addModel = new EventEmitter<StepModel>();
 
-  private url: string = 'https://datahub.io/core/country-codes/r/country-codes.csv';
+  // private url: string = 'https://datahub.io/core/country-codes/r/country-codes.csv';
   private lastAction: string = null;
 
   constructor() { }
 
   ngOnInit() {
+    this.addUrl();
   }
 
   state() {
@@ -35,7 +36,7 @@ export class StepAdderComponent implements OnInit {
 
   addUrl() {
     let sm = new StepModel('source');
-    sm.setOptions({url: this.url});
+    sm.setOptions({});
     this.add(sm);
   }
 

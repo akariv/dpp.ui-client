@@ -1,0 +1,52 @@
+.box {
+  width: 53%;
+  border-radius: 10px;
+  height: 60px;
+  border-width: 10px;
+  border-style: double;
+  border-color: #000;
+
+  &.first {
+    //z-index: -1;
+    margin-left: 50%;
+    margin-top: -48px;
+
+    &.pending {
+      border-style: double;
+      border-left: none;
+    }
+
+    &.in-progress {
+      border-style: solid;
+      border-left: none;
+    }
+
+    &.done {
+      border-style: solid;
+      border-left: none;
+    }
+
+  }
+
+  &.second {
+    //z-index: -1;
+    margin-left: -3%;
+    margin-top: -10px;
+
+    &.pending {
+      border-style: none;
+      border-right: none;
+    }
+
+    &.in-progress {
+      border-style: double;
+      border-right: none;
+    }
+
+    &.done {
+      border-style: solid;
+      border-right: none;
+    }
+
+  }
+}

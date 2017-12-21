@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+body {
+    background: #eee;
+}
+
+select {
+    background: white;
+    border: none;
+    border-bottom: #ccc dashed 1px;
+}
+
+.tooltip-inner {
+    color: inherit;
+    background: white;
+    max-width: 600px;
+    padding: 0;
+    border: #444 solid 0.5px;
+}
+
+.tooltip-inner > table {
+    padding: 8px 3px;
+}
+
+.tooltip.bs-tooltip-bottom .arrow::before {
+    border-bottom-color: #444;
+}

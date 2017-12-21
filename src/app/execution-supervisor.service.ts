@@ -10,6 +10,7 @@ export interface ResultType {
   data: any;
   idx: number;
   field: string;
+  msg: string;
 }
 
 @Injectable()

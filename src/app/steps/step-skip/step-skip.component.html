@@ -1,18 +1,14 @@
-<hr/>
-Skip:
-<input type="number" step="1" min="0" [(ngModel)]="model.action.options.amount" (change)="onChanged()">
-<select [(ngModel)]="model.action.options.kind" (change)="onChanged()">
-  <option>rows</option>
-  <option>columns</option>
-</select>
-<div>
-  <span>{{ model.state }}</span> |
-  <span>{{ model.rowcount }} rows</span> |
-  <span *ngIf="model.schema">{{ model.schema.length }} columns</span> |
-  <span *ngIf="model.prev && model.prev.schema">(prev: {{ model.prev.schema.length }} columns)</span>
-</div>
-Got:
-<div>
-  <app-result-table [rows]="model.rows" [schema]="model.schema"></app-result-table>
-</div>
-<hr/>
+<execution-step [model]="model">
+  Skip:
+  <input type="number" step="1" min="0" [(ngModel)]="model.action.options.amount" (change)="onChanged()">
+  <select [(ngModel)]="model.action.options.kind" (change)="onChanged()">
+    <option>rows</option>
+    <option>columns</option>
+  </select>
+  <div>
+    <span>{{ model.state }}</span> |
+    <span>{{ model.rowcount }} rows</span> |
+    <span *ngIf="model.schema">{{ model.schema.length }} columns</span> |
+    <span *ngIf="model.prev && model.prev.schema">(prev: {{ model.prev.schema.length }} columns)</span>
+  </div>
+</execution-step>

@@ -1,15 +1,14 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {RowArray, FieldDefArray} from "../../step-model";
+import {RowArray, FieldDefArray, StepModel} from "../../step-model";
 
 @Component({
   selector: 'app-result-table',
   templateUrl: './result-table.component.html',
-  styleUrls: ['./result-table.component.css']
+  styleUrls: ['./result-table.component.less']
 })
 export class ResultTableComponent implements OnInit {
 
-  @Input() rows: RowArray;
-  @Input() schema:  FieldDefArray;
+  @Input() model: StepModel;
   @Input() prefixHeader:  string;
 
   constructor() { }
@@ -17,4 +16,14 @@ export class ResultTableComponent implements OnInit {
   ngOnInit() {
   }
 
+  extract(row, fieldName): string {
+    let ret = row.data[fieldName].v;
+    if (ret['type{date}']) {
+      return `<span class='date'>${ret['type{date}']}</span>`;
+    }
+    if (ret['type{decimal}']) {
+      return `<span class='decimal'>${ret['type{decimal}']}</span>`;
+    }
+    return JSON.stringify(ret);
+  }
 }

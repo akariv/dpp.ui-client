@@ -19,6 +19,7 @@ export class StepModel {
   public prev: StepModel;
 
   public events = new Subject<ResultType>();
+  private error: string;
 
   constructor(verb?: string) {
     this.uuid = StepModel.genUUID();
@@ -36,6 +37,9 @@ export class StepModel {
         this.rows = [];
         this.rowcount = 0;
         this.schema = null;
+        this.error = null;
+      } else if (rt.e == 'err') {
+        this.error = rt.msg;
       } else if (rt.e == 'done') {
         this.state = 'done'
       } else if (rt.e == 'r') {

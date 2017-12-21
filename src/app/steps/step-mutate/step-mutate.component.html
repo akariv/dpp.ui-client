@@ -1,30 +1,23 @@
-<hr/>
-<div *ngIf="model.action.options.kind=='schema'">
-  Interpret
-  <select [(ngModel)]="model.action.options.field" (change)="onChanged()">
-    <option *ngIf="model.prev.schema" disabled selected value>Choose field:</option>
-    <option *ngFor="let field of model.prev.schema">{{field.name}}</option>
-  </select>
-  as
-  <select [(ngModel)]="model.action.options.options.type" (change)="onChanged()">
-    <option>string</option>
-    <option>number</option>
-    <option>integer</option>
-    <option>boolean</option>
-    <option>date</option>
-    <option>datetime</option>
-    <option>time</option>
-  </select>
-  <span *ngIf="model.action.options.options.type=='boolean'">
-    'truth' values: <input type="text" [(ngModel)]="trueValues" (change)="onChanged()"/>,
-    'false' values: <input type="text" [(ngModel)]="falseValues" (change)="onChanged()"/> (comma separated)
-  </span>
-</div>
-<div *ngIf="model.action.options.kind=='validate'">
-
-</div>
-Got:
-<div>
-  <app-result-table [rows]="model.rows" [schema]="model.schema" [prefixHeader]="model.action.options.field"></app-result-table>
-</div>
-<hr/>
+<execution-step [model]="model">
+  <div *ngIf="model.action.options.kind=='schema'">
+    Interpret
+    <select [(ngModel)]="model.action.options.field" (change)="onChanged()">
+      <option *ngIf="model.prev.schema" disabled selected value>Choose field:</option>
+      <option *ngFor="let field of model.prev.schema">{{field.name}}</option>
+    </select>
+    as
+    <select [(ngModel)]="model.action.options.options.type" (change)="onChanged()">
+      <option>string</option>
+      <option>number</option>
+      <option>integer</option>
+      <option>boolean</option>
+      <option>date</option>
+      <option>datetime</option>
+      <option>time</option>
+    </select>
+    <span *ngIf="model.action.options.options.type=='boolean'">
+      'truth' values: <input type="text" [(ngModel)]="trueValues" (change)="onChanged()"/>,
+      'false' values: <input type="text" [(ngModel)]="falseValues" (change)="onChanged()"/> (comma separated)
+    </span>
+  </div>
+</execution-step>

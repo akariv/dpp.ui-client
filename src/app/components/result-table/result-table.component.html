@@ -1,24 +1,42 @@
-<table *ngIf="schema">
-  <thead>
-  <th>Idx</th>
-  <th *ngIf="prefixHeader">{{ prefixHeader }}</th>
-  <th *ngIf="prefixHeader">&hellip;</th>
-  <th *ngFor="let field of schema">
-    {{ field.name }}
-  </th>
-  </thead>
-  <tr *ngFor="let row of rows ">
-    <td>
-      {{ row.idx }}
-    </td>
-    <td *ngIf="prefixHeader"
-        [class.error]="row.data[prefixHeader] && row.data[prefixHeader].klass == 'error'">
-      <strong>{{ row.data[prefixHeader].v }}</strong>
-    </td>
-    <th *ngIf="prefixHeader">&hellip;</th>
-    <td *ngFor="let field of schema"
-        [class.error]="row.data[field.name] && row.data[field.name].klass == 'error'">
-      {{ row.data[field.name].v }}
-    </td>
-  </tr>
-</table>
+<ng-template #tableContent>
+    <table *ngIf="model.schema" class="table table-sm table-striped">
+        <thead class="thead-light">
+        <th>#</th>
+        <th *ngIf="prefixHeader" scope="col">{{ prefixHeader }}</th>
+        <th *ngIf="prefixHeader" scope="col">&hellip;</th>
+        <th *ngFor="let field of model.schema" scope="col">
+            {{ field.name }}
+        </th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of model.rows">
+                <th scope="row">
+                    {{ row.idx }}
+                </th>
+                <td *ngIf="prefixHeader"
+                    [class.error]="row.data[prefixHeader] && row.data[prefixHeader].klass == 'error'">
+                    <strong [innerHtml]="extract(row, prefixHeader)"></strong>
+                </td>
+                <th *ngIf="prefixHeader">&hellip;</th>
+                <td *ngFor="let field of model.schema"
+                    [class.error]="row.data[field.name] && row.data[field.name].klass == 'error'"
+                    [innerHtml]="extract(row, field.name)">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</ng-template>
+
+<code *ngIf="model.rowcount"
+    class="rowcount"
+    [ngbTooltip]="tableContent"
+    placement="bottom"
+    triggers="click:click"
+>
+    {{ model.rowcount | zeros:10 }}
+</code>
+<code *ngIf="!model.rowcount"
+      class="rowcount pending"
+>
+    &nbsp;
+</code>
