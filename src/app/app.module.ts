@@ -44,7 +44,7 @@ import { ZerosPipe } from './pipes/zeros.pipe';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
   ],
   providers: [ServerEventsService, ExecutionSupervisorService],
   bootstrap: [AppComponent]

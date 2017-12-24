@@ -7,6 +7,9 @@
             </span>
         </div>
         <div class="col hero">
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+                {{errorMessage}}
+            </div>
             <app-steps-container></app-steps-container>
         </div>
     </div>

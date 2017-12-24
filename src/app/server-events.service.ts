@@ -1,8 +1,9 @@
-import {Injectable, NgZone} from '@angular/core';
+import {Injectable, NgZone, EventEmitter} from '@angular/core';
 import {Observable} from "rxjs";
 import {EventSourcePolyfill} from "ng-event-source"
 import {HttpClient} from "@angular/common/http";
 import {StepModel} from "./step-model";
+import {ResultType} from "./execution-supervisor.service";
 
 let SERVER = '';//http://localhost:8000';
 
@@ -12,6 +13,8 @@ export class ServerEventsService {
 
   private zone: NgZone;
   private executionId: string = '';
+
+  error: EventEmitter<string> = new EventEmitter();
 
   constructor(private http: HttpClient) {
     this.zone = new NgZone({enableLongStackTrace: false});
@@ -33,13 +36,23 @@ export class ServerEventsService {
       this.uploadConfig(config)
         .subscribe(data => {
           console.log(data);
+          this.error.emit(null);
           this.executionId = data['id'];
-          eventSource = new EventSourcePolyfill(SERVER+'/events/'+this.executionId, {});
+          try {
+            eventSource = new EventSourcePolyfill(SERVER+'/events/'+this.executionId, {});
+          } catch (e) {
+            this.error.emit(e.message);
+            observer.error(e);
+          }
           eventSource.onmessage = x => {
             if (x.data !== 'close') {
               try {
-                let parsed = JSON.parse(x.data);
-                observer.next(parsed);
+                let parsed: ResultType = JSON.parse(x.data);
+                if (parsed.e && parsed.e=='err' && parsed.uuid=='global') {
+                  this.error.emit(parsed.msg);
+                } else {
+                  observer.next(parsed);
+                }
               } catch (exception) {
                 console.log('Warning - bad data received', x);
                 throw exception;
@@ -48,8 +61,14 @@ export class ServerEventsService {
               eventSource.close();
             }
           };
-          eventSource.onerror = x => observer.error(x);
-        });
+          eventSource.onerror = x => {
+            this.error.emit(x.message);
+            observer.error(x)
+          }
+        },
+          (error) => {
+            this.error.emit(error.message);
+          });
 
       return () => {
         if (eventSource) {

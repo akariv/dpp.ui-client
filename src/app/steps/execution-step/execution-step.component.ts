@@ -10,6 +10,7 @@ import {StepModel} from "../../step-model";
 export class ExecutionStepComponent implements OnInit {
 
   @Input() model: StepModel;
+  @Input() prefixHeader: string;
 
   constructor() { }
 

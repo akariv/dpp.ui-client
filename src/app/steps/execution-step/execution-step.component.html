@@ -2,7 +2,7 @@
   <div class="col step-ui">
 
     <div class="card border-dark mb-3">
-      <div class="card-header">{{model.getAction().verb}}</div>
+      <div class="card-header">{{model.title}}</div>
       <div class="card-body text-dark">
         <ng-content></ng-content>
       </div>
@@ -11,5 +11,5 @@
 </div>
 <app-execution-status [model]="model"></app-execution-status>
 <div class="result-table">
-  <app-result-table [model]="model"></app-result-table>
+  <app-result-table [model]="model" [prefixHeader]="prefixHeader"></app-result-table>
 </div>

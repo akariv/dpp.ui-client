@@ -9,6 +9,10 @@ select {
     background: white;
     border: none;
     border-bottom: #ccc dashed 1px;
+    -webkit-appearance: none;
+    apperance: none;
+    font-family: courier;
+    width: auto;
 }
 
 .tooltip-inner {

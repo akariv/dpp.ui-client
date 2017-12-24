@@ -12,7 +12,7 @@ type PkgSource = {name: string, url: string};
 })
 export class StepSourceComponent extends StepBaseComponent implements OnInit {
 
-  sources: PkgSource[] = [];
+  sources: PkgSource[] = null;
 
   constructor(private http: HttpClient) {
     super();
@@ -22,6 +22,7 @@ export class StepSourceComponent extends StepBaseComponent implements OnInit {
     this.http.get('http://api.datahub.io/metastore/search?datahub.owner=%22core%22&size=10000')
       .subscribe((response: any) => {
         let entry: any;
+        this.sources = [];
         for (entry of response.results) {
           let source: PkgSource = {name: null, url: null};
           source['name'] = entry.datapackage.title;

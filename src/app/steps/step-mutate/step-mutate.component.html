@@ -1,23 +1,83 @@
-<execution-step [model]="model">
+<execution-step [model]="model" [prefixHeader]="model.action.options.field">
   <div *ngIf="model.action.options.kind=='schema'">
-    Interpret
-    <select [(ngModel)]="model.action.options.field" (change)="onChanged()">
-      <option *ngIf="model.prev.schema" disabled selected value>Choose field:</option>
-      <option *ngFor="let field of model.prev.schema">{{field.name}}</option>
-    </select>
-    as
-    <select [(ngModel)]="model.action.options.options.type" (change)="onChanged()">
-      <option>string</option>
-      <option>number</option>
-      <option>integer</option>
-      <option>boolean</option>
-      <option>date</option>
-      <option>datetime</option>
-      <option>time</option>
-    </select>
-    <span *ngIf="model.action.options.options.type=='boolean'">
-      'truth' values: <input type="text" [(ngModel)]="trueValues" (change)="onChanged()"/>,
-      'false' values: <input type="text" [(ngModel)]="falseValues" (change)="onChanged()"/> (comma separated)
-    </span>
+
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label col-form-label-sm">Interpret</label>
+      <select class="col-sm-5 form-control form-control-sm"
+              [(ngModel)]="model.action.options.field" (change)="onChanged()">
+        <option *ngIf="model.prev.schema" disabled selected value>Choose field:</option>
+        <option *ngFor="let field of model.prev.schema" value="{{field.name}}">{{field.name}}</option>
+      </select>
+      <label class="col-sm-1 col-form-label col-form-label-sm">as</label>
+      <select class="col-sm-2 form-control form-control-sm"
+              [(ngModel)]="model.action.options.options.type" (change)="onChanged()">
+        <option *ngFor="let type of types" value="{{type}}">{{type}}</option>
+      </select>
+    </div>
+
+    <div class="form-group row"*ngIf="model.action.options.options.type=='string'">
+      <label class="col-sm-2 col-form-label col-form-label-sm">format:</label>
+      <select class="col-sm-2 form-control form-control-sm"
+              [(ngModel)]="model.action.options.options.format" (change)="onChanged()">
+        <option value="default">any valid string</option>
+        <option value="email">a valid email address</option>
+        <option value="uri">a valid URI</option>
+        <option value="binary">a base64 encoded string</option>
+        <option value="uuid">a string that is a uuid</option>
+      </select>
+    </div>
+
+    <div class="form-group row"*ngIf="model.action.options.options.type=='number'">
+      <label class="col-sm-3 col-form-label col-form-label-sm">thousands separator:</label>
+      <input class="col-sm-1 form-control form-control-sm"
+             type="text" [(ngModel)]="model.action.options.options.groupChar" (change)="onChanged()"
+      />
+      <label class="col-sm-3 col-form-label col-form-label-sm">decimal separator:</label>
+      <input class="col-sm-1 form-control form-control-sm"
+             type="text" [(ngModel)]="model.action.options.options.decimalChar" (change)="onChanged()"
+      />
+      <div class="col-sm-1"></div>
+      <label class="col-sm-3 col-form-label col-form-label-sm">
+        <input type="checkbox" class="form-check-input"
+               [(ngModel)]="model.action.options.options.bareNumber" (change)="onChanged()"
+        >
+        bare number
+      </label>
+    </div>
+
+    <div class="form-group row"*ngIf="model.action.options.options.type=='integer'">
+      <label class="col-sm-3 col-form-label col-form-label-sm">
+        <input type="checkbox" class="form-check-input"
+               [(ngModel)]="model.action.options.options.bareNumber" (change)="onChanged()"
+        >
+        bare number
+      </label>
+    </div>
+
+    <div class="form-group row"*ngIf="model.action.options.options.type=='date' || model.action.options.options.type=='datetime' || model.action.options.options.type=='time'">
+      <label class="col-sm-2 col-form-label col-form-label-sm">format:</label>
+      <select class="col-sm-2 form-control form-control-sm"
+              [(ngModel)]="model.action.options.options.format" (change)="onChanged()">
+        <option value="default">ISO8601 format string</option>
+        <option value="any">a parseable format</option>
+        <option value="">a manual pattern</option>
+      </select>
+      <input class="col-sm-6 form-control form-control-sm"
+             type="text" [(ngModel)]="model.action.options.options.format" (change)="onChanged()"
+             *ngIf="model.action.options.options.format!='any' && model.action.options.options.format!='default'"
+             placeholder="pattern for date/time values, e.g. %d/%m/%y"/>
+    </div>
+
+
+    <div class="form-group row"*ngIf="model.action.options.options.type=='boolean'">
+      <label class="col-sm-2 col-form-label col-form-label-sm">'truth' values:</label>
+      <input class="col-sm-10 form-control form-control-sm"
+                  type="text" [(ngModel)]="trueValues" (change)="onChanged()"
+                  placeholder="comma separated words indicating truthiness (leave empty for defaults)"/>
+      <label class="col-sm-2 col-form-label col-form-label-sm">'false' values:</label>
+      <input class="col-sm-10 form-control form-control-sm"
+             type="text" [(ngModel)]="falseValues" (change)="onChanged()"
+             placeholder="comma separated words indicating truthiness (leave empty for defaults)"/>
+    </div>
   </div>
 </execution-step>

@@ -8,6 +8,16 @@ import {StepBaseComponent} from "../../step-base/step-base.component";
 })
 export class StepMutateComponent extends StepBaseComponent implements OnInit {
 
+  types = [
+    "string",
+    "number",
+    "integer",
+    "boolean",
+    "date",
+    "datetime",
+    "time",
+  ];
+  
   constructor() {
     super();
   }

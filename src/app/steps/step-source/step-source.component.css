@@ -1,1 +1,5 @@
 @import "../../step-base/step-base.component.css";
+
+select {
+    max-width: 400px;
+}

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ServerEventsService} from "./server-events.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  errorMessage: string = null;
+
+  constructor(private ses: ServerEventsService) {
+    ses.error.subscribe((errorMessage) => {
+      this.errorMessage = errorMessage;
+    })
+  }
 }

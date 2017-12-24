@@ -1,11 +1,14 @@
 <ng-template #tableContent>
-    <table *ngIf="model.schema" class="table table-sm table-striped">
+    <table *ngIf="model.schema && !model.error" class="table table-sm table-striped">
         <thead class="thead-light">
         <th>#</th>
-        <th *ngIf="prefixHeader" scope="col">{{ prefixHeader }}</th>
+        <th *ngIf="prefixHeader" scope="col">
+            {{ prefixHeader }}
+        </th>
         <th *ngIf="prefixHeader" scope="col">&hellip;</th>
         <th *ngFor="let field of model.schema" scope="col">
-            {{ field.name }}
+            <small>{{ field.type }}</small><br/>
+            <strong>{{ field.name }}</strong>
         </th>
         </thead>
         <tbody>
@@ -25,6 +28,9 @@
             </tr>
         </tbody>
     </table>
+    <div *ngIf="model.error">
+        <strong [innerHtml]="model.error"></strong>
+    </div>
 </ng-template>
 
 <code *ngIf="model.rowcount"
@@ -34,9 +40,19 @@
     triggers="click:click"
 >
     {{ model.rowcount | zeros:10 }}
+    <span *ngIf="model.error || model.badrowcount"
+          [innerHtml]="alertIcon"></span>
 </code>
 <code *ngIf="!model.rowcount"
       class="rowcount pending"
+      [ngbTooltip]="tableContent"
+      placement="bottom"
+      triggers="click:click"
 >
-    &nbsp;
+    <span *ngIf="model.error"
+          [innerHtml]="alertIcon"></span>
+    <span *ngIf="!model.error">
+        &nbsp;
+    </span>
 </code>
+<div class="clicker" *ngIf="model.rowcount && model.last"><small>Click here &#x25b2;</small></div>

@@ -35,6 +35,7 @@ export class StepsContainerComponent implements OnInit {
     }
     this.models.push(model);
     this.modelsByUuid[model.getAction().uuid] = model;
+    model.setLast(true);
     this.run();
   }
 

@@ -12,16 +12,20 @@ export class StepModel {
   uuid: string;
   rows: RowArray = [];
   rowcount = null;
+  badrowcount = null;
   revision = 0;
+  last = false;
+  title = "";
+  error: string;
 
   public action: {verb: string; uuid: string, options?: any};
-  public schema: FieldDefArray;
+  public schema: FieldDefArray = null;
+
   public prev: StepModel;
-
   public events = new Subject<ResultType>();
-  private error: string;
 
-  constructor(verb?: string) {
+  constructor(title: string, verb: string) {
+    this.title = title;
     this.uuid = StepModel.genUUID();
     verb = verb || 'noop';
     this.action = {
@@ -36,10 +40,13 @@ export class StepModel {
         this.state = 'in-progress';
         this.rows = [];
         this.rowcount = 0;
-        this.schema = null;
+        this.badrowcount = 0;
         this.error = null;
       } else if (rt.e == 'err') {
-        this.error = rt.msg;
+        if (!this.error) {
+          this.error = '';
+        }
+        this.error += rt.msg + '<br/>';
       } else if (rt.e == 'done') {
         this.state = 'done'
       } else if (rt.e == 'r') {
@@ -48,17 +55,16 @@ export class StepModel {
             return {v: v_};
           });
           this.rows.push({idx: rt.idx + 1, data: data})
-          console.log(this.uuid, 'ROW', rt.idx+1, data);
           this.rowcount = rt.idx + 1;
         }
       } else if (rt.e == 've') {
+        this.badrowcount += 1;
         if (rt.idx >= this.rowcount) {
           let data = _.mapValues(rt.data, (v_) => {return {v: v_};});
           if (data[rt.field]) {
             data[rt.field].klass = 'error';
           }
           this.rows.push({idx: rt.idx + 1, data: data})
-          console.log(this.uuid, 'ROW', rt.idx+1, data);
           this.rowcount = rt.idx + 1;
         }
       } else if (rt.e == 'rs') {
@@ -88,5 +94,14 @@ export class StepModel {
 
   bumpRevision() {
     this.action.options.revision += 1;
+  }
+
+  setLast(v: boolean) {
+    if (this.last != v) {
+      this.last = v;
+      if (this.prev) {
+        this.prev.setLast(false);
+      }
+    }
   }
 }

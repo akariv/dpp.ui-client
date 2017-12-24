@@ -1,14 +1,51 @@
 <execution-step [model]="model">
-  <div *ngIf="model.action.options.kind=='filter'">
-    Filter
-    <select [(ngModel)]="model.action.options.field" (change)="onChanged()">
-      <option *ngIf="model.prev.schema" disabled selected value>Choose field:</option>
-      <option *ngFor="let field of model.prev.schema">{{field.name}}</option>
-    </select>
-    by
-    <select [(ngModel)]="model.action.options.value" (change)="onChanged()">
-      <option *ngIf="model.prev.rows" disabled selected value>Select value:</option>
-      <option *ngFor="let val of model.prev.rows | uniqueValues:model.action.options.field">{{val}}</option>
-    </select>
-  </div>
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label col-form-label-sm">Keep rows in which</label>
+        <div class="col-sm-9">
+            <select class="form-control form-control-sm"
+                    [(ngModel)]="model.action.options.field" (change)="onChanged()"
+                    style="display: inline; width: auto"
+            >
+                <option *ngIf="model.prev.schema" disabled selected value>Choose field:</option>
+                <option *ngFor="let field of model.prev.schema" value="{{field.name}}">{{field.name}}</option>
+            </select>
+            <label class="col-form-label col-form-label-sm"
+                   style="display: inline"
+            >is</label>
+            <select class=" form-control form-control-sm"
+                    [(ngModel)]="model.action.options.op" (change)="onChanged()"
+                    style="display: inline; width: auto"
+            >
+                <option *ngFor="let op of ops" value="{{op.code}}">{{op.name}}</option>
+            </select>
+            &nbsp;
+            <input [(ngModel)]="model.action.options.arg" (change)="onChanged()"
+                 *ngIf="!discreet(model.action.options.op)"
+                 type="text" class="form-control form-control-sm" placeholder="value"
+                   style="display: inline; width: auto"
+            >
+            <select [(ngModel)]="model.action.options.arg" (change)="onChanged()"
+                    *ngIf="discreet(model.action.options.op)"
+                    style="display: inline; width: auto"
+            >
+                <option *ngIf="model.prev.rows" disabled selected value>Select value:</option>
+                <option *ngFor="let val of model.prev.rows | uniqueValues:model.action.options.field">{{val}}</option>
+            </select>
+        </div>
+    </div>
+
+
+  <!--<div *ngIf="model.action.options.kind=='filter'">-->
+  <!--Filter-->
+  <!--<select [(ngModel)]="model.action.options.field" (change)="onChanged()">-->
+  <!--<option *ngIf="model.prev.schema" disabled selected value>Choose field:</option>-->
+  <!--<option *ngFor="let field of model.prev.schema">{{field.name}}</option>-->
+  <!--</select>-->
+  <!--by-->
+  <!--<select [(ngModel)]="model.action.options.value" (change)="onChanged()">-->
+  <!--<option *ngIf="model.prev.rows" disabled selected value>Select value:</option>-->
+  <!--<option *ngFor="let val of model.prev.rows | uniqueValues:model.action.options.field">{{val}}</option>-->
+  <!--</select>-->
+  <!--</div>-->
+
 </execution-step>

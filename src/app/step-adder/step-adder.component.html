@@ -1,17 +1,58 @@
-<div class="row">
-  <div class="col step-ui">
-
-    <div class="card border-dark mb-3">
-      <div class="card-header">What's next?</div>
-      <div class="card-body text-dark">
-        <div>
-          <button (click)="addUrl()" *ngIf="state()=='init'">Add URL</button>
-          <button (click)="addSkip()" *ngIf="state()=='layout'">Add Skip</button>
-          <button (click)="addHeaders()" *ngIf="state()=='layout'">Looks Good</button>
-          <button (click)="addFilter()" *ngIf="state()=='processing'">Add Filter</button>
-          <button (click)="addSchema()" *ngIf="state()=='processing'">Add Schema</button>
-          <button (click)="addNop()">Add NOP</button>
+<div class="row justify-content-md-center">
+  <div class="col col-lg-8 step-ui">
+    <div class="card text-white bg-dark mb-3">
+      <div class="card-body text-white">
+        <div *ngIf="state()=='layout'">
+          <p>
+            <strong>
+              Select a data source in the above card.<br/>
+            </strong>
+          </p>
+          <div *ngIf="hasData()">
+            <p>
+              <strong>Now, click on the row counter to inspect the data.<br/>
+                Is the data aligned at the top-left?</strong>
+            </p>
+            <button type="button" class="btn btn-primary btn-sm"
+                    (click)="addSkip()">No, I need to remove some rows/columns</button>
+            <button type="button" class="btn btn-primary btn-sm"
+                    (click)="addHeaders()">Yes, Data Looks Good!</button>
+          </div>
         </div>
+        <div *ngIf="state()=='processing'">
+          <p>
+            <strong>
+              Now you can:
+            </strong>
+          </p>
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-dark">
+              <strong>Keep just a portion of this dataset, by:</strong><br/>
+              <button type="button" class="btn btn-primary btn-sm"
+                    (click)="addFilter()">Selecting rows</button>
+              &mdash;&nbsp;or&nbsp;&mdash;
+              <button type="button" class="btn btn-primary btn-sm disabled" disabled
+                    (click)="addHeaders()">Selecting columns</button>
+            </li>
+            <li class="list-group-item list-group-item-dark">
+              <strong>Verify the contents of this dataset, by:</strong><br/>
+              <button type="button" class="btn btn-primary btn-sm"
+                      (click)="addSchema()">Adding data <em>types</em></button>
+              &mdash;&nbsp;or&nbsp;&mdash;
+              <button type="button" class="btn btn-primary btn-sm disabled" disabled
+                      (click)="addSchema()">Adding data <em>validations</em></button>
+            </li>
+          </ul>
+          <p>
+            <br/>
+            When you're happy with the results, go ahead and
+              <button type="button" class="btn btn-success btn-sm"
+                      (click)="doDownload()">Download</button>
+            it!
+          </p>
+        </div>
+          <!--<button (click)="addUrl()" *ngIf="state()=='init'">Add URL</button>-->
+          <!--<button (click)="addNop()">Add NOP</button>-->
       </div>
     </div>
   </div>

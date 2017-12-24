@@ -1,8 +1,8 @@
-<div class="first box {{model.state}}">
+<div class="first box {{model.state}}" [class.error]="model.error">
 
 </div>
 
-<div class="second box {{model.state}}">
+<div class="second box {{model.state}}" [class.error]="model.error">
 
 </div>
 
@@ -12,6 +12,5 @@
   <span>{{ model.rowcount }} rows</span> |
   <span *ngIf="model.schema">{{ model.schema.length }} columns</span> |
   <span *ngIf="model.prev && model.prev.schema">(prev: {{ model.prev.schema.length }} columns)</span> |
-  <span *ngIf="model.error">ERROR: {{ model.error }}</span>
 </div>
 </ng-template>

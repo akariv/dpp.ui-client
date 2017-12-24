@@ -32,9 +32,10 @@
   <div class="row">
     <div class="steps col">
       <div class="adder">
-        <app-step-adder (addModel)="addModel($event)"></app-step-adder>
+        <app-step-adder (addModel)="addModel($event)"
+                        (download)="download()"
+        ></app-step-adder>
       </div>
-      <button (click)="download()">DOWNLOAD</button>
     </div>
   </div>
 </div>

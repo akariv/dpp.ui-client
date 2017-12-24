@@ -9,9 +9,10 @@ import {StepModel} from "../step-model";
 export class StepAdderComponent implements OnInit {
 
   @Output('addModel') addModel = new EventEmitter<StepModel>();
+  @Output('download') download = new EventEmitter<boolean>();
 
   // private url: string = 'https://datahub.io/core/country-codes/r/country-codes.csv';
-  private lastAction: string = null;
+  private lastModel: StepModel = null;
 
   constructor() { }
 
@@ -20,51 +21,60 @@ export class StepAdderComponent implements OnInit {
   }
 
   state() {
-    if (this.lastAction == null) {
+    let lastAction = this.lastModel == null ? null : this.lastModel.action.verb;
+    if (lastAction == null) {
       return 'init';
-    } else if (this.lastAction=='source' || this.lastAction=='skip') {
+    } else if (lastAction=='source' || lastAction=='skip') {
       return 'layout';
-    } else if (this.lastAction=='mutate' || this.lastAction=='filter' || this.lastAction=='headers') {
+    } else if (lastAction=='mutate' || lastAction=='filter' || lastAction=='headers') {
       return 'processing';
     }
   }
 
+  hasData() {
+    return this.lastModel.rowcount > 0;
+  }
+
   add(sm: StepModel) {
-    this.lastAction = sm.action.verb;
+    this.lastModel = sm;
     this.addModel.emit(sm);
   }
 
   addUrl() {
-    let sm = new StepModel('source');
+    let sm = new StepModel('Select Data Source', 'source');
     sm.setOptions({});
     this.add(sm);
   }
 
   addSkip() {
-    let sm = new StepModel('skip');
+    let sm = new StepModel('Skip Rows / Columns', 'skip');
     sm.setOptions({kind: 'rows', amount: 1});
     this.add(sm);
   }
 
   addHeaders() {
-    let sm = new StepModel('headers');
+    let sm = new StepModel('Lock Headrs', 'headers');
     this.add(sm);
   }
 
   addSchema() {
-    let sm = new StepModel('mutate');
+    let sm = new StepModel('Set Data Types', 'mutate');
     sm.setOptions({kind: 'schema', field: null, options:{}});
     this.add(sm);
   }
 
   addFilter() {
-    let sm = new StepModel('filter');
+    let sm = new StepModel('Filter Data', 'filter');
     sm.setOptions({kind: 'filter', field: null, value:null});
     this.add(sm);
   }
 
   addNop() {
-    let sm = new StepModel();
+    let sm = new StepModel('noop', 'noop');
     this.add(sm);
+  }
+
+  doDownload() {
+    this.download.emit();
   }
 }
